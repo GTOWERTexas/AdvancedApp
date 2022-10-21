@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Employee>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Advanced Features";
+}
+
+<h4 class = "bg-info text-center text-white p-2">Employee list</h4>
+
+    <form method = "get" asp-action = "Index">
+        <div class = "input-group m-2">
+            <div class = "form-outline">
+                  <input type = "search" name = "searchTerm" class = "form-control" placeholder = "Search"></input>
+                  
+            </div>
+           <button type = "submit" class = "btn  btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+</svg></button>
+        </div>
+    </form>
+
+
+<table class  = "table table-sm table-striped table-bordered">
+    <thead>
+        <tr><th>Key</th><th>SSN</th><th>First Name</th><th>Family Name</th><th>Salary</th><th>Secondary Name</th><th>Generated</th><th></th><th></th></tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr class = "placeholder"><td class = "text-center" colspan = "9">No Data</td></tr>
+        }
+        else
+        {
+            @foreach (Employee e in Model)
+           {
+               <tr>
+                   <td>@e.Id</td>
+                   <td>@e.SSN</td>
+                   <td>@e.FirstName</td>
+                   <td>@e.FamilyName</td>
+                   <td>@e.Salary</td>
+                   <td>@(e.OtherIdentity?.Name ?? "None")</td>
+                   <td>@e.GeneratedValueT</td>
+                  @* <td>@(e.OtherIdentity?.InActiveUse.ToString() ?? "(N/A)")</td>*@
+                   <td class = "text-center bg-primary">
+                        <form method = "get" asp-action = "Edit">
+                           <input type = "hidden" value = "@e.SSN" name = "SSN"></input>
+                           <input type  ="hidden" value = "@e.FamilyName" name = "FamilyName"></input>
+                           <input type  ="hidden" value = "@e.FirstName" name = "FirstName"></input>
+                          @* <input type = "hidden" value = "@e.RowVersion" name = "RowVersion"></input>*@
+                         <input type= "hidden" value = "@e.OtherIdentity.Id" name = "OtherIdentity.Id"></input>
+                           <button type = "submit" class  = "btn btn-sm btn-primary" style = "height:100%; width: 100%">Edit</button>
+                       </form>
+                   </td>
+                       <td class = "text-danger bg-danger">
+                       <form method = "post" asp-action = "Delete">
+                           <input type = "hidden" value = "@e.SSN" name = "SSN"></input>
+                           <input type  ="hidden" value = "@e.FamilyName" name = "FamilyName"></input>
+                           <input type  ="hidden" value = "@e.FirstName" name = "FirstName"></input>
+                             <input type= "hidden" value = "@e.OtherIdentity.Id" name = "OtherIdentity.Id"></input>
+                           @* <input type = "hidden" value = "@e.RowVersion" name = "RowVersion"></input>*@
+                           <button type = "submit" class  = "btn btn-sm btn-danger" style = "height:100%; width: 100%">Delete</button>
+                       </form>
+                   </td>
+               </tr>
+           }
+        }
+    </tbody>
+</table>
+@if(ViewBag.PageSize != null)
+{
+    <h4 class  = "bg-info text-white text-center p-2">Page Size: @ViewBag.PageSize bytes</h4>
+}
+@if(ViewBag.Secondaries != null)
+{
+    @Html.Partial("SecondaryIdentities", Model)
+}
+
+<div class = "text-center m-2 p-2 text-right">
+    <a asp-action = "Edit" class = "btn btn-sm btn-primary badge-pill" >Create</a>
+</div>

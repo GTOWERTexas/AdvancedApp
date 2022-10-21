@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href  = "/lib/bootstrap/dist/css/bootstrap.min.css" rel = "stylesheet"></link>
+    <title>@ViewBag.Title</title>
+    <style>
+        .placeholder{visibility:collapse}
+        .placeholder:only-child{visibility:visible}
+    </style>
+</head>
+<body>
+    <div>
+        <div class = "container-fluid">
+            @RenderBody()
+        </div>
+        
+    </div>
+</body>
+</html>

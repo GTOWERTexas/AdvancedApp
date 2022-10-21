@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Employee>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Advanced Features";
+}
+
+<h4 class = "bg-info text-center text-white p-2">Salary</h4>
+<table class = "table table-sm table-bordered table-striped">
+    <thead>
+        <tr><th>SSN</th><th>First Name</th><th>Family Name</th><th>Salary</th></tr>
+    </thead>
+    <tbody>
+       
+              @foreach (Employee e in Model)
+               {
+                   <tr>
+                       <td>@e.SSN</td>
+                       <td>@e.FirstName</td>
+                       <td>@e.FamilyName</td>
+                       <td>@e.Salary</td>
+                   </tr>
+               }
+        
+      
+    </tbody>
+</table>
+
